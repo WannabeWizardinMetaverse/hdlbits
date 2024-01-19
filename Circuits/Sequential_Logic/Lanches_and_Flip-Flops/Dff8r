@@ -1,0 +1,19 @@
+Solution:
+
+module top_module (
+    input clk,
+    input reset,            // Synchronous reset
+    input [7:0] d,
+    output [7:0] q
+);
+    always@(posedge clk)begin
+        if(reset)
+			    q<= 0;
+        else
+          q<= d;
+    end
+
+endmodule
+
+NOTE:
+For synchronous reset, the reset should NOT be added in the trigger condition of always block.

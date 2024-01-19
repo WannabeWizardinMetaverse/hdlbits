@@ -1,0 +1,23 @@
+Solution:
+module top_module (
+    input clk,
+    input resetn,
+    input [1:0] byteena,
+    input [15:0] d,
+    output [15:0] q
+);
+    always@(posedge clk)begin
+        if(!resetn)
+            q<= 0;
+        else case(byteena)
+            2'h0: q<= q;
+            2'h1: q[7:0]<= d[7:0];
+            2'h2: q[15:8]<= d[15:8];
+            2'h3: q<= d;
+            default: q<= 0;
+        endcase     
+    end
+endmodule
+
+NOTE:
+I made a mistake for my first attempt. I used 'else if' to detect each bit of the 'byteena' 
