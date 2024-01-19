@@ -1,0 +1,26 @@
+Solution 1:
+
+module top_module( 
+    input a,b,c,
+    output w,x,y,z );
+    
+    assign w = a;
+    assign x = b;
+    assign y = b;
+    assign z = c;
+
+endmodule
+
+Solution 2:
+
+module top_module( 
+    input a,b,c,
+    output w,x,y,z );
+
+    assign {w,x,y,z} = {a,b,b,c};
+
+endmodule
+
+Note:
+  1. The order in which they appear in the code does not matter. (parallel)
+  2. In solution 2, "assign {w,x,y,z} = {a,b,b,c};" using the concatenation operator '{}'. The operator combines the 4 bits inputs to a 4-bit input.
