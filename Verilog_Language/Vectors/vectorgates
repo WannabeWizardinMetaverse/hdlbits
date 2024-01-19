@@ -1,0 +1,39 @@
+Solution:
+module top_module( 
+    input [2:0] a,
+    input [2:0] b,
+    output [2:0] out_or_bitwise,
+    output out_or_logical,
+    output [5:0] out_not
+);
+    assign out_or_bitwise = a|b;
+    assign out_or_logical = a||b;
+    assign out_not = {~b,~a};
+endmodule
+
+NOTE：
+1. logical operator
+  A = 3; 
+  B = 0; 
+  C = 2'b1x ;
+      
+  A && B    //     为假
+  A || B    //     为真
+  ! A       //     为假
+  ! B       //     为真
+  A && C    //     为X，不确定
+  A || C    //     为真，因为A为真
+  (A==2) && (! B)  //为真，此时第一个操作数为表达式
+
+2. bitwise
+  A = 4'b0101 ;
+  B = 4'b1001 ;
+  C = 4'bx010 ;
+      
+  ~A        //4'b1010
+  A & B     //4'b0001
+  A | B     //4'b1101
+  A^B       //4'b1100
+  A ~^ B    //4'b0011
+  B | C     //4'b1011
+  B&C       //4'bx000

@@ -1,0 +1,16 @@
+Solution:
+
+module top_module( 
+    input [7:0] in,
+    output [7:0] out
+);
+    always@(*)begin
+        for(integer i=0; i<8; i=i+1)begin
+            out[i]=  in[7-i];
+        end
+    end
+endmodule
+
+NOTE:
+it is also correct by arranging the order of the input again but it will be hard to deal with long vector.
+the solution given in the website also provides the way by using 'generate' block. 

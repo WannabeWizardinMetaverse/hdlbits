@@ -1,0 +1,16 @@
+Solution:
+
+module top_module (
+    input [7:0] in,
+    output [31:0] out );
+  
+    assign out = {{24{in[7]}}, in};
+  
+endmodule
+
+NOTE:
+concatenation operator '{}' is used to concatenate the vectors together.
+When we want to concatenate some the same vectors, '{num{vector_name}}' can be used. 
+And do not forget the outer curly brackets above when we use that type to concatenate with other vectors.
+For example,
+  {3'b111, {num{vector_name}}};

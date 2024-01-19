@@ -1,0 +1,38 @@
+`default_nettype none     // Disable implicit nets. Reduces some types of bugs.
+module top_module( 
+    input wire [15:0] in,
+    output wire [7:0] out_hi,
+    output wire [7:0] out_lo );
+    
+    assign out_hi = in[15:8];
+    assign out_lo = in[7:0];
+
+endmodule
+
+NOTE:
+1. Vectors are declared as follow: （just ingore the way that the index is from lower to upper）
+  <type> [upper:lower] vector_name;
+
+  The type are usually 
+  <port type> (e.g., input or output) adding wire or reg.
+
+  For example, when we decalre ports, 
+    input wire [15:0] in
+    output wire [7:0] out
+
+  Vectors declared in the module such as
+    wire [7:0] temp1
+    reg [7:0] temp2
+
+2. Implicit nets
+   'assign' is also a way to declare vector BUT it could only declare 1-bit vector.
+    assign a = 3'b101;  // a = 101
+    assign b = a;       // b =   1  implicitly-created wire
+
+3. Unpacked vs. Packed Arrays
+   reg [7:0] mem [255:0];   // 256 unpacked elements, each of which is a 8-bit packed vector of reg.
+   reg mem2 [28:0];         // 29 unpacked elements, each of which is a 1-bit reg.
+  
+  
+  
+  
