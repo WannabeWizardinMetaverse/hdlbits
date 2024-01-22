@@ -1,0 +1,22 @@
+Solution:
+
+module top_module (
+    input clk,
+    input reset,
+    input [31:0] in,
+    output [31:0] out
+);
+    reg [31:0]temp_in;
+    always@(posedge clk)begin
+        temp_in<= in;
+        if(reset)
+            out<= 0;
+        else 
+            out<= out|(temp_in&~in);
+    end
+endmodule
+
+NOTE:
+the problem is that the output should be kept to be high, after the falling edge is detected.
+Initially, I wanted to use FSM (finite state machines) to figure out this problem. 
+but for this problem, considering the relationship between the output could lead me to a simpler solution.
