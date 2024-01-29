@@ -1,0 +1,46 @@
+Solution:
+
+module top_module(clk, reset, in, out);
+    input clk;
+    input reset;    // Synchronous reset to state B
+    input in;
+    output out;//  
+    reg out;
+
+    // Fill in state name declarations
+	parameter A= 1'b1, B= 1'b0;
+    reg present_state, next_state;
+
+    always @(posedge clk) begin
+        if (reset) begin  
+            // Fill in reset logic
+            present_state<= B;
+            out<= 1'b1;
+        end 
+        else begin
+            case (present_state)
+                // Fill in state transition logic
+                A: next_state= in? A:B;
+                B: next_state= in? B:A;
+            endcase
+
+            // State flip-flops
+            present_state = next_state;   
+
+            case (present_state)
+                // Fill in output logic
+                A: out= 1'b0;
+                B: out= 1'b1;
+            endcase
+        end
+    end
+
+endmodule
+
+NOTE:
+I have tried this problem for many times. The difference between this one and the former one is not just the synchronous issue. 
+The most different thing is that statement of 'state flip-flops' become blocking here. 
+
+The reason is that in this solution, the combinational logic block and the reset block is inside one 'if-else' statement.
+so the combinational logic will not react simultaneously when the reset block is implemented. Therefore, if I use non-blocking statement
+for the state flip-flop here, the output will react one clock cycle later than we expected.
