@@ -1,0 +1,28 @@
+Solution:
+
+module top_module(
+    input clk,
+    input in,
+    input areset,
+    output out); //
+
+    parameter A= 2'h0, B= 2'h1, C= 2'h2, D=2'h3;
+    reg [1:0] p_state;
+    reg [1:0] n_state;
+    // State transition logic
+    always@(*) begin
+        case(p_state)
+            A: n_state= in? B: A;
+            B: n_state= in? B: C;
+            C: n_state= in? D: A;
+            D: n_state= in? B: C;          
+        endcase
+    end
+    // State flip-flops with asynchronous reset
+    always@(posedge clk or posedge areset)begin
+        if(areset) p_state<= A;
+        else p_state<= n_state;
+    end
+    // Output logic
+    assign out= (p_state== D);
+endmodule
