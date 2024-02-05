@@ -1,0 +1,49 @@
+Solution:
+
+module top_module(
+    input clk,
+    input [7:0] in,
+    input reset,    // Synchronous reset
+    output [23:0] out_bytes,
+    output done); //
+
+    parameter dect= 1'b0, cnting= 1'b1;
+    reg state, next_state;
+    reg [1:0] cnt;
+    // FSM from fsm_ps2
+    always@(*)begin
+        case(state)
+            dect: next_state<= in[3]? cnting: dect;
+            cnting: next_state<= (cnt==1'b1)? dect: cnting;
+        endcase
+    end
+    always@(posedge clk)begin
+        if(reset) begin
+            state<= dect;
+            cnt<= 2'b0;
+        end
+        else begin
+            state<= next_state;
+            if(state== cnting)
+            	cnt<= cnt+ 1'b1;
+            else
+                cnt<= 2'b0;
+        end
+    end
+    always@(posedge clk)begin
+        if(reset)
+            done<= 1'b0;
+        else
+            done<= (cnt==1'b1)? 1'b1: 1'b0;
+    end
+    
+    // New: Datapath to store incoming bytes.
+    always@(posedge clk)begin
+        if(reset)
+            out_bytes<= 24'b0;
+        else begin
+            out_bytes[23:8]<= out_bytes[15:0]; 
+            out_bytes[7:0]<= in;
+        end
+    end
+endmodule
