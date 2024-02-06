@@ -34,3 +34,6 @@ module top_module(
     end
     assign done=(state== TRUE);
 endmodule
+
+NOTE:
+Initially I did not add FALSE state into the FSM and made a mistake. BUT I still do not know why this state is necessary.
