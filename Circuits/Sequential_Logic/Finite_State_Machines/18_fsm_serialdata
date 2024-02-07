@@ -1,0 +1,50 @@
+Solution:
+
+module top_module(
+    input clk,
+    input in,
+    input reset,    // Synchronous reset
+    output [7:0] out_byte,
+    output done
+); 
+	parameter SAB= 0, DATA= 1, SPB= 2, TRUE= 3, FALSE= 4;
+    reg [2:0] state;
+    reg [2:0] next_state;
+    reg [2:0] cnt;
+    
+    always@(posedge clk)begin
+        if(reset) cnt<= 0;
+        else if(state== DATA)
+            cnt<= cnt+ 1'b1;
+    end
+    
+    always@(posedge clk)begin
+        if(reset) state<= SAB;
+        else state<= next_state;
+    end
+    
+    always@(*)begin
+        case(state)
+            SAB: next_state= in? SAB: DATA;
+            DATA: next_state= (cnt== 7)? SPB: DATA;
+            SPB: next_state= in? TRUE: FALSE;
+            TRUE: next_state= in? SAB: DATA;
+            FALSE: next_state= in? SAB: FALSE;
+            default: next_state= SAB;
+        endcase
+    end
+    assign done=(state== TRUE);
+    
+    reg [9:0] out_temp;
+    always@(posedge clk)begin
+        if(reset)  out_temp<= 0;
+		else begin
+            out_temp<= out_temp>>1; 
+            out_temp[9]<= in;
+        end
+    end
+    assign out_byte= done? out_temp[8:1]: 8'b0;
+endmodule
+
+NOTE: 
+sequence of the data.
